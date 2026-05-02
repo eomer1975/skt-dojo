@@ -48,6 +48,7 @@ function normalizzaUrlIniziale() {
 normalizzaUrlIniziale();
 const appRootUrl = new URL("../", import.meta.url);
 const basePath = appRootUrl.pathname.replace(/\/$/, "");
+const origin = window.location.origin;
 const transizioni = [
     "transition-fade",
     "transition-zoom",
@@ -71,6 +72,12 @@ function creaPathPagina(codice) {
 function creaPathAsset(path) {
     if (/^https?:\/\//.test(path)) {
         return path;
+    }
+    if (path.startsWith("//")) {
+        return `${window.location.protocol}${path}`;
+    }
+    if (path.startsWith("/")) {
+        return new URL(path, origin).pathname;
     }
     const pathRelativo = path.replace(/^\//, "");
     return new URL(pathRelativo, appRootUrl).pathname;
@@ -311,8 +318,8 @@ if (navContainer) {
         if (!href) {
             return;
         }
-        const url = new URL(href, window.location.origin);
-        if (url.origin !== window.location.origin) {
+        const url = new URL(href, origin);
+        if (url.origin !== origin) {
             return;
         }
         event.preventDefault();

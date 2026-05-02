@@ -65,6 +65,7 @@ normalizzaUrlIniziale();
 
 const appRootUrl = new URL("../", import.meta.url);
 const basePath = appRootUrl.pathname.replace(/\/$/, "");
+const origin = window.location.origin;
 
 const transizioni: TransitionName[] = [
   "transition-fade",
@@ -95,6 +96,14 @@ function creaPathPagina(codice: string): string {
 function creaPathAsset(path: string): string {
   if (/^https?:\/\//.test(path)) {
     return path;
+  }
+
+  if (path.startsWith("//")) {
+    return `${window.location.protocol}${path}`;
+  }
+
+  if (path.startsWith("/")) {
+    return new URL(path, origin).pathname;
   }
 
   const pathRelativo = path.replace(/^\//, "");
@@ -390,8 +399,8 @@ if (navContainer) {
       return;
     }
 
-    const url = new URL(href, window.location.origin);
-    if (url.origin !== window.location.origin) {
+    const url = new URL(href, origin);
+    if (url.origin !== origin) {
       return;
     }
 
