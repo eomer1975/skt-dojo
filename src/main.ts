@@ -63,25 +63,8 @@ function normalizzaUrlIniziale(): void {
 
 normalizzaUrlIniziale();
 
-function leggiBasePathDaScript(): string {
-  const scriptPath = new URL(import.meta.url).pathname;
-  const prefissoDist = "/dist/main.js";
-
-  if (scriptPath.endsWith(prefissoDist)) {
-    const baseNormalizzata = normalizzaSegmentiDuplicati(scriptPath.slice(0, -prefissoDist.length));
-    return baseNormalizzata === "/" ? "" : baseNormalizzata;
-  }
-
-  const primoSegmento = window.location.pathname.split("/").filter(Boolean)[0] || "";
-  if (!primoSegmento || caricaPaginaDaCodice(primoSegmento)) {
-    return "";
-  }
-
-  const fallbackNormalizzato = normalizzaSegmentiDuplicati(`/${primoSegmento}`);
-  return fallbackNormalizzato === "/" ? "" : fallbackNormalizzato;
-}
-
-const basePath = leggiBasePathDaScript();
+const appRootUrl = new URL("../", import.meta.url);
+const basePath = appRootUrl.pathname.replace(/\/$/, "");
 
 const transizioni: TransitionName[] = [
   "transition-fade",
@@ -106,7 +89,7 @@ function normalizzaPathname(pathname: string): string {
 }
 
 function creaPathPagina(codice: string): string {
-  return basePath ? `${basePath}/${codice}` : `/${codice}`;
+  return new URL(codice, appRootUrl).pathname;
 }
 
 function creaPathAsset(path: string): string {
@@ -114,8 +97,8 @@ function creaPathAsset(path: string): string {
     return path;
   }
 
-  const pathNormalizzato = path.startsWith("/") ? path : `/${path}`;
-  return basePath ? `${basePath}${pathNormalizzato}` : pathNormalizzato;
+  const pathRelativo = path.replace(/^\//, "");
+  return new URL(pathRelativo, appRootUrl).pathname;
 }
 
 function aggiornaRiferimentiMenu(): void {
