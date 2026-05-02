@@ -3,7 +3,12 @@ import { Pagina } from "../models/pagina.model.js";
 
 export function leggiCodicePaginaDaUrl(pathname: string): string {
   const pulito = pathname.replace(/^\/+|\/+$/g, "");
-  return pulito || "home";
+  if (!pulito) {
+    return "home";
+  }
+
+  const segmenti = pulito.split("/").filter(Boolean);
+  return segmenti[segmenti.length - 1] || "home";
 }
 
 export function caricaPaginaDaCodice(codice: string): Pagina | undefined {

@@ -14,11 +14,28 @@ const intro = document.querySelector(".hero p");
 const menuToggle = document.querySelector("#menu-toggle");
 const navLinks = Array.from(document.querySelectorAll(".topbar a[href]"));
 const bgLayers = Array.from(document.querySelectorAll(".bg-layer"));
+const primoSegmento = window.location.pathname.split("/").filter(Boolean)[0] || "";
+const basePath = primoSegmento && !caricaPaginaDaCodice(primoSegmento) ? `/${primoSegmento}` : "";
 const transizioni = [
     "transition-fade",
     "transition-zoom",
     "transition-swipe"
 ];
+function normalizzaPathname(pathname) {
+    if (!basePath) {
+        return pathname;
+    }
+    if (pathname === basePath || pathname === `${basePath}/`) {
+        return "/";
+    }
+    if (pathname.startsWith(`${basePath}/`)) {
+        return pathname.slice(basePath.length);
+    }
+    return pathname;
+}
+function creaPathPagina(codice) {
+    return basePath ? `${basePath}/${codice}` : `/${codice}`;
+}
 function scegliSfondoRandom() {
     if (sfondiDisponibili.length === 0) {
         return "";
@@ -100,7 +117,7 @@ async function impostaSfondoPagina(codicePagina, fallback) {
 function aggiornaLinkAttivo(codicePagina) {
     for (const link of navLinks) {
         const linkPath = new URL(link.href, window.location.origin).pathname;
-        const linkCodice = leggiCodicePaginaDaUrl(linkPath);
+        const linkCodice = leggiCodicePaginaDaUrl(normalizzaPathname(linkPath));
         const isAttivo = linkCodice === codicePagina;
         link.classList.toggle("is-active", isAttivo);
         if (isAttivo) {
@@ -112,7 +129,7 @@ function aggiornaLinkAttivo(codicePagina) {
     }
 }
 function renderPagina(pathname) {
-    const codicePagina = leggiCodicePaginaDaUrl(pathname);
+    const codicePagina = leggiCodicePaginaDaUrl(normalizzaPathname(pathname));
     const pagina = caricaPaginaDaCodice(codicePagina);
     if (heading instanceof HTMLElement) {
         heading.textContent = pagina ? pagina.titolo : "Pagina non trovata";
@@ -144,7 +161,7 @@ function renderPagina(pathname) {
 }
 function naviga(pathname, historyMode = "push") {
     const { codice, trovata } = renderPagina(pathname);
-    const prossimoPath = trovata ? `/${codice}` : pathname;
+    const prossimoPath = trovata ? creaPathPagina(codice) : pathname;
     if (historyMode === "push" && prossimoPath !== window.location.pathname) {
         window.history.pushState({ codice }, "", prossimoPath);
     }
@@ -179,9 +196,12 @@ window.addEventListener("popstate", () => {
     naviga(window.location.pathname, "none");
 });
 if (window.location.pathname === "/") {
-    naviga("/home", "replace");
+    naviga(creaPathPagina("home"), "replace");
 }
 else {
-    naviga(window.location.pathname, "none");
+    const pathCorrente = normalizzaPathname(window.location.pathname) === "/"
+        ? creaPathPagina("home")
+        : window.location.pathname;
+    naviga(pathCorrente, "none");
 }
 //# sourceMappingURL=main.js.map

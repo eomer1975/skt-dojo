@@ -21,11 +21,34 @@ const menuToggle = document.querySelector<HTMLInputElement>("#menu-toggle");
 const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>(".topbar a[href]"));
 const bgLayers = Array.from(document.querySelectorAll<HTMLDivElement>(".bg-layer"));
 
+const primoSegmento = window.location.pathname.split("/").filter(Boolean)[0] || "";
+const basePath = primoSegmento && !caricaPaginaDaCodice(primoSegmento) ? `/${primoSegmento}` : "";
+
 const transizioni: TransitionName[] = [
   "transition-fade",
   "transition-zoom",
   "transition-swipe"
 ];
+
+function normalizzaPathname(pathname: string): string {
+  if (!basePath) {
+    return pathname;
+  }
+
+  if (pathname === basePath || pathname === `${basePath}/`) {
+    return "/";
+  }
+
+  if (pathname.startsWith(`${basePath}/`)) {
+    return pathname.slice(basePath.length);
+  }
+
+  return pathname;
+}
+
+function creaPathPagina(codice: string): string {
+  return basePath ? `${basePath}/${codice}` : `/${codice}`;
+}
 
 function scegliSfondoRandom(): string {
   if (sfondiDisponibili.length === 0) {
@@ -128,7 +151,7 @@ async function impostaSfondoPagina(codicePagina: string, fallback: string): Prom
 function aggiornaLinkAttivo(codicePagina: string): void {
   for (const link of navLinks) {
     const linkPath = new URL(link.href, window.location.origin).pathname;
-    const linkCodice = leggiCodicePaginaDaUrl(linkPath);
+    const linkCodice = leggiCodicePaginaDaUrl(normalizzaPathname(linkPath));
     const isAttivo = linkCodice === codicePagina;
 
     link.classList.toggle("is-active", isAttivo);
@@ -141,7 +164,7 @@ function aggiornaLinkAttivo(codicePagina: string): void {
 }
 
 function renderPagina(pathname: string): { codice: string; trovata: boolean } {
-  const codicePagina = leggiCodicePaginaDaUrl(pathname);
+  const codicePagina = leggiCodicePaginaDaUrl(normalizzaPathname(pathname));
   const pagina = caricaPaginaDaCodice(codicePagina);
 
   if (heading instanceof HTMLElement) {
@@ -176,7 +199,7 @@ function renderPagina(pathname: string): { codice: string; trovata: boolean } {
 
 function naviga(pathname: string, historyMode: HistoryMode = "push"): void {
   const { codice, trovata } = renderPagina(pathname);
-  const prossimoPath = trovata ? `/${codice}` : pathname;
+  const prossimoPath = trovata ? creaPathPagina(codice) : pathname;
 
   if (historyMode === "push" && prossimoPath !== window.location.pathname) {
     window.history.pushState({ codice }, "", prossimoPath);
@@ -221,7 +244,10 @@ window.addEventListener("popstate", () => {
 });
 
 if (window.location.pathname === "/") {
-  naviga("/home", "replace");
+  naviga(creaPathPagina("home"), "replace");
 } else {
-  naviga(window.location.pathname, "none");
+  const pathCorrente = normalizzaPathname(window.location.pathname) === "/"
+    ? creaPathPagina("home")
+    : window.location.pathname;
+  naviga(pathCorrente, "none");
 }
