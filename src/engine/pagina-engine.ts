@@ -1,5 +1,5 @@
-import { pagine } from "../data/pagine";
-import { Pagina } from "../models/pagina.model";
+import { pagine } from "../data/pagine.js";
+import { Pagina } from "../models/pagina.model.js";
 
 export function leggiCodicePaginaDaUrl(pathname: string): string {
   const pulito = pathname.replace(/^\/+|\/+$/g, "");

@@ -1,4 +1,4 @@
-import { Pagina } from "../models/pagina.model";
+import { Pagina } from "../models/pagina.model.js";
 
 export const pagine: Pagina[] = [
   {
@@ -22,8 +22,8 @@ export const pagine: Pagina[] = [
   },
   {
     id: 2,
-    codice: "ninja-kds",
-    titolo: "Ninja KDS",
+    codice: "ninja-kids",
+    titolo: "Ninja Kids",
     testo: "Percorso dedicato ai piu giovani con attenzione a disciplina, gioco e crescita.",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
@@ -42,7 +42,7 @@ export const pagine: Pagina[] = [
   {
     id: 3,
     codice: "adulti",
-    titolo: "Corsi Adulti",
+    titolo: "Corsi adolescenti e adulti",
     testo: "Allenamento tecnico e tradizionale per principianti e praticanti avanzati.",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
