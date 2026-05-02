@@ -38,15 +38,30 @@ const navContainer = document.querySelector<HTMLElement>(".nav-links");
 const bgLayers = Array.from(document.querySelectorAll<HTMLDivElement>(".bg-layer"));
 
 function leggiBasePathDaScript(): string {
+  const normalizzaSegmentiDuplicati = (path: string): string => {
+    const segmenti = path.split("/").filter(Boolean);
+    const compressi: string[] = [];
+
+    for (const segmento of segmenti) {
+      if (compressi[compressi.length - 1] !== segmento) {
+        compressi.push(segmento);
+      }
+    }
+
+    return compressi.length > 0 ? `/${compressi.join("/")}` : "";
+  };
+
   const scriptPath = new URL(import.meta.url).pathname;
   const prefissoDist = "/dist/main.js";
 
   if (scriptPath.endsWith(prefissoDist)) {
-    return scriptPath.slice(0, -prefissoDist.length);
+    return normalizzaSegmentiDuplicati(scriptPath.slice(0, -prefissoDist.length));
   }
 
   const primoSegmento = window.location.pathname.split("/").filter(Boolean)[0] || "";
-  return primoSegmento && !caricaPaginaDaCodice(primoSegmento) ? `/${primoSegmento}` : "";
+  return primoSegmento && !caricaPaginaDaCodice(primoSegmento)
+    ? normalizzaSegmentiDuplicati(`/${primoSegmento}`)
+    : "";
 }
 
 const basePath = leggiBasePathDaScript();
