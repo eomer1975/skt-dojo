@@ -1,0 +1,17 @@
+{
+  "name": "skt_dojo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc && npm run styles",
+    "watch": "tsc --watch",
+    "styles": "sass src/styles/main.scss assets/styles/main.css",
+    "styles:watch": "sass --watch src/styles/main.scss:assets/styles/main.css",
+    "serve": "node server.js",
+    "dev": "npm run build && npm run serve"
+  },
+  "devDependencies": {
+    "sass": "^1.89.0",
+    "typescript": "^5.8.3"
+  }
+}
