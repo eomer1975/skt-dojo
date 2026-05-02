@@ -27,26 +27,38 @@ const intro = document.querySelector(".hero p");
 const menuToggle = document.querySelector("#menu-toggle");
 const navContainer = document.querySelector(".nav-links");
 const bgLayers = Array.from(document.querySelectorAll(".bg-layer"));
-function leggiBasePathDaScript() {
-    const normalizzaSegmentiDuplicati = (path) => {
-        const segmenti = path.split("/").filter(Boolean);
-        const compressi = [];
-        for (const segmento of segmenti) {
-            if (compressi[compressi.length - 1] !== segmento) {
-                compressi.push(segmento);
-            }
+function normalizzaSegmentiDuplicati(path) {
+    const segmenti = path.split("/").filter(Boolean);
+    const compressi = [];
+    for (const segmento of segmenti) {
+        if (compressi[compressi.length - 1] !== segmento) {
+            compressi.push(segmento);
         }
-        return compressi.length > 0 ? `/${compressi.join("/")}` : "";
-    };
+    }
+    return compressi.length > 0 ? `/${compressi.join("/")}` : "/";
+}
+function normalizzaUrlIniziale() {
+    const pathnameNormalizzato = normalizzaSegmentiDuplicati(window.location.pathname);
+    if (pathnameNormalizzato === window.location.pathname) {
+        return;
+    }
+    const prossimoUrl = `${pathnameNormalizzato}${window.location.search}${window.location.hash}`;
+    window.history.replaceState(window.history.state, "", prossimoUrl);
+}
+normalizzaUrlIniziale();
+function leggiBasePathDaScript() {
     const scriptPath = new URL(import.meta.url).pathname;
     const prefissoDist = "/dist/main.js";
     if (scriptPath.endsWith(prefissoDist)) {
-        return normalizzaSegmentiDuplicati(scriptPath.slice(0, -prefissoDist.length));
+        const baseNormalizzata = normalizzaSegmentiDuplicati(scriptPath.slice(0, -prefissoDist.length));
+        return baseNormalizzata === "/" ? "" : baseNormalizzata;
     }
     const primoSegmento = window.location.pathname.split("/").filter(Boolean)[0] || "";
-    return primoSegmento && !caricaPaginaDaCodice(primoSegmento)
-        ? normalizzaSegmentiDuplicati(`/${primoSegmento}`)
-        : "";
+    if (!primoSegmento || caricaPaginaDaCodice(primoSegmento)) {
+        return "";
+    }
+    const fallbackNormalizzato = normalizzaSegmentiDuplicati(`/${primoSegmento}`);
+    return fallbackNormalizzato === "/" ? "" : fallbackNormalizzato;
 }
 const basePath = leggiBasePathDaScript();
 const transizioni = [
