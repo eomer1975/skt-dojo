@@ -37,8 +37,19 @@ const menuToggle = document.querySelector<HTMLInputElement>("#menu-toggle");
 const navContainer = document.querySelector<HTMLElement>(".nav-links");
 const bgLayers = Array.from(document.querySelectorAll<HTMLDivElement>(".bg-layer"));
 
-const primoSegmento = window.location.pathname.split("/").filter(Boolean)[0] || "";
-const basePath = primoSegmento && !caricaPaginaDaCodice(primoSegmento) ? `/${primoSegmento}` : "";
+function leggiBasePathDaScript(): string {
+  const scriptPath = new URL(import.meta.url).pathname;
+  const prefissoDist = "/dist/main.js";
+
+  if (scriptPath.endsWith(prefissoDist)) {
+    return scriptPath.slice(0, -prefissoDist.length);
+  }
+
+  const primoSegmento = window.location.pathname.split("/").filter(Boolean)[0] || "";
+  return primoSegmento && !caricaPaginaDaCodice(primoSegmento) ? `/${primoSegmento}` : "";
+}
+
+const basePath = leggiBasePathDaScript();
 
 const transizioni: TransitionName[] = [
   "transition-fade",
