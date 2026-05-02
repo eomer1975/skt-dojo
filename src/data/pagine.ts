@@ -3,6 +3,7 @@ import { Pagina } from "../models/pagina.model.js";
 export const pagine: Pagina[] = [
   {
     id: 1,
+    parent: null,
     codice: "home",
     titolo: "Benvenuto nel Dojo",
     testo: "Scopri il nostro percorso di studio e crescita personale.",
@@ -22,6 +23,7 @@ export const pagine: Pagina[] = [
   },
   {
     id: 2,
+    parent: null,
     codice: "ninja-kids",
     titolo: "Ninja Kids",
     testo: "Percorso dedicato ai piu giovani con attenzione a disciplina, gioco e crescita.",
@@ -41,6 +43,7 @@ export const pagine: Pagina[] = [
   },
   {
     id: 3,
+    parent: null,
     codice: "adulti",
     titolo: "Corsi adolescenti e adulti",
     testo: "Allenamento tecnico e tradizionale per principianti e praticanti avanzati.",
@@ -60,6 +63,7 @@ export const pagine: Pagina[] = [
   },
   {
     id: 4,
+    parent: null,
     codice: "dove-quando",
     titolo: "Dove e Quando",
     testo: "Informazioni su sede del dojo, orari dei corsi e modalita di accesso.",
@@ -79,6 +83,7 @@ export const pagine: Pagina[] = [
   },
   {
     id: 5,
+    parent: null,
     codice: "bujinkan",
     titolo: "La Bujinkan",
     testo: "Panoramica su storia, principi e spirito della tradizione Bujinkan.",
@@ -97,7 +102,68 @@ export const pagine: Pagina[] = [
     ]
   },
   {
+    id: 8,
+    parent: 5,
+    codice: "il-soke",
+    titolo: "Il Soke",
+    testo: "Profilo di Masaaki Hatsumi, fondatore della Bujinkan e figura centrale del Budo Tai Jutsu.",
+    immagineSfondo: "assets/sfondi/yamabushi01.png",
+    elementi: [
+      {
+        titolo: "Masaaki Hatsumi",
+        immagine: "assets/legacy/dojo.jpg",
+        testo: "Dalla formazione nel judo alla trasmissione del lignaggio ricevuto da Takamatsu Toshitsugu."
+      },
+      {
+        titolo: "Fondazione della Bujinkan",
+        immagine: "assets/legacy/corsi.jpg",
+        testo: "La nascita di una organizzazione internazionale dedicata alla preservazione del Budo Tai Jutsu."
+      }
+    ]
+  },
+  {
+    id: 9,
+    parent: 5,
+    codice: "i-maestri",
+    titolo: "I Maestri",
+    testo: "Le figure che hanno trasmesso il patrimonio tecnico e umano da Takamatsu Sensei a Hatsumi Sensei.",
+    immagineSfondo: "assets/sfondi/maestri.png",
+    elementi: [
+      {
+        titolo: "Takamatsu Toshitsugu",
+        immagine: "assets/legacy/dojo.jpg",
+        testo: "Il maestro da cui Hatsumi ha ricevuto insegnamenti, lignaggio e responsabilita di trasmissione."
+      },
+      {
+        titolo: "Trasmissione diretta",
+        immagine: "assets/legacy/corsi.jpg",
+        testo: "La relazione maestro-allievo come fondamento dello studio tradizionale nel dojo."
+      }
+    ]
+  },
+  {
+    id: 10,
+    parent: 5,
+    codice: "le-9-scuole",
+    titolo: "Le 9 Scuole",
+    testo: "Panoramica delle nove tradizioni marziali che compongono il Budo Tai Jutsu trasmesso nella Bujinkan.",
+    immagineSfondo: "assets/sfondi/yamabushi01.png",
+    elementi: [
+      {
+        titolo: "Tradizioni Koryu",
+        immagine: "assets/legacy/corsi.jpg",
+        testo: "Dalle scuole shinobi alle tradizioni samurai, nove lignaggi confluiscono nello studio moderno."
+      },
+      {
+        titolo: "Studio integrato",
+        immagine: "assets/legacy/dojo.jpg",
+        testo: "Principi, distanza, postura e strategia emergono dall'incontro tra le diverse scuole."
+      }
+    ]
+  },
+  {
     id: 6,
+    parent: null,
     codice: "regole",
     titolo: "Regole del Dojo",
     testo: "Linee guida di comportamento, sicurezza e partecipazione alla pratica.",
@@ -117,6 +183,7 @@ export const pagine: Pagina[] = [
   },
   {
     id: 7,
+    parent: null,
     codice: "contatti",
     titolo: "Contatti",
     testo: "Riferimenti per informazioni, prove e iscrizioni ai corsi del dojo.",

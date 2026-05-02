@@ -1,4 +1,6 @@
+import { pagine } from "./data/pagine.js";
 import { caricaPaginaDaCodice, leggiCodicePaginaDaUrl } from "./engine/pagina-engine.js";
+import { Pagina } from "./models/pagina.model.js";
 
 type HistoryMode = "push" | "replace" | "none";
 type TransitionName = "transition-fade" | "transition-zoom" | "transition-swipe";
@@ -6,19 +8,33 @@ type TransitionName = "transition-fade" | "transition-zoom" | "transition-swipe"
 const sfondiDisponibili = [
   "assets/sfondi/samurai01.png",
   "assets/sfondi/samurai02.png",
-  "assets/sfondi/yamabushi01.png"
+  "assets/sfondi/yamabushi01.png",
+  "assets/sfondi/maestri.png"
 ];
 
 let ultimoSfondoIndex = -1;
 let sfondoRenderId = 0;
 let ultimoTransitionIndex = -1;
 let activeBgLayerIndex = 0;
+let navLinks: HTMLAnchorElement[] = [];
 const cacheSfondoPerCodice = new Map<string, string | null>();
+const paginePerCodice = new Map(pagine.map((pagina) => [pagina.codice, pagina]));
+const figliPerParent = new Map<number, Pagina[]>();
+
+for (const pagina of pagine) {
+  if (pagina.parent === null) {
+    continue;
+  }
+
+  const figli = figliPerParent.get(pagina.parent) || [];
+  figli.push(pagina);
+  figliPerParent.set(pagina.parent, figli);
+}
 
 const heading = document.querySelector(".hero h1");
 const intro = document.querySelector(".hero p");
 const menuToggle = document.querySelector<HTMLInputElement>("#menu-toggle");
-const navLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>(".topbar a[href]"));
+const navContainer = document.querySelector<HTMLElement>(".nav-links");
 const bgLayers = Array.from(document.querySelectorAll<HTMLDivElement>(".bg-layer"));
 
 const primoSegmento = window.location.pathname.split("/").filter(Boolean)[0] || "";
@@ -50,6 +66,94 @@ function creaPathPagina(codice: string): string {
   return basePath ? `${basePath}/${codice}` : `/${codice}`;
 }
 
+function creaPathAsset(path: string): string {
+  if (/^https?:\/\//.test(path)) {
+    return path;
+  }
+
+  const pathNormalizzato = path.startsWith("/") ? path : `/${path}`;
+  return basePath ? `${basePath}${pathNormalizzato}` : pathNormalizzato;
+}
+
+function aggiornaRiferimentiMenu(): void {
+  navLinks = navContainer
+    ? Array.from(navContainer.querySelectorAll<HTMLAnchorElement>("a[href]"))
+    : [];
+}
+
+function creaLinkMenu(pagina: Pagina): HTMLAnchorElement {
+  const link = document.createElement("a");
+  link.href = creaPathPagina(pagina.codice);
+  link.textContent = pagina.titolo;
+  link.classList.add("nav-link");
+  return link;
+}
+
+function impostaStatoSottomenu(item: HTMLElement, isOpen: boolean): void {
+  item.classList.toggle("is-open", isOpen);
+  const link = item.querySelector<HTMLAnchorElement>(".nav-link--parent");
+  if (link) {
+    link.setAttribute("aria-expanded", String(isOpen));
+  }
+}
+
+function preparaMenuConSottomenu(): void {
+  if (!(navContainer instanceof HTMLElement)) {
+    return;
+  }
+
+  for (const child of Array.from(navContainer.children)) {
+    if (!(child instanceof HTMLAnchorElement)) {
+      continue;
+    }
+
+    const href = child.getAttribute("href");
+    if (!href) {
+      continue;
+    }
+
+    const codice = leggiCodicePaginaDaUrl(href);
+    const pagina = paginePerCodice.get(codice);
+    if (!pagina) {
+      child.classList.add("nav-link");
+      continue;
+    }
+
+    child.href = creaPathPagina(pagina.codice);
+    child.classList.add("nav-link");
+
+    const figli = figliPerParent.get(pagina.id) || [];
+    if (figli.length === 0) {
+      continue;
+    }
+
+    const item = document.createElement("div");
+    item.className = "nav-item nav-item--has-children";
+    item.dataset.pageCode = pagina.codice;
+
+    const parent = document.createElement("div");
+    parent.className = "nav-parent";
+
+    child.classList.add("nav-link--parent");
+  child.setAttribute("aria-expanded", "false");
+
+  const submenu = document.createElement("div");
+    submenu.className = "nav-submenu";
+
+    for (const figlio of figli) {
+      const linkFiglio = creaLinkMenu(figlio);
+      linkFiglio.classList.add("nav-sublink");
+      submenu.append(linkFiglio);
+    }
+
+    navContainer.replaceChild(item, child);
+    parent.append(child);
+    item.append(parent, submenu);
+  }
+
+  aggiornaRiferimentiMenu();
+}
+
 function scegliSfondoRandom(): string {
   if (sfondiDisponibili.length === 0) {
     return "";
@@ -65,7 +169,7 @@ function scegliSfondoRandom(): string {
   }
 
   ultimoSfondoIndex = prossimoIndex;
-  return sfondiDisponibili[prossimoIndex];
+  return creaPathAsset(sfondiDisponibili[prossimoIndex]);
 }
 
 function scegliTransizioneRandom(): TransitionName {
@@ -121,8 +225,8 @@ function verificaEsistenzaImmagine(url: string): Promise<boolean> {
 async function impostaSfondoPagina(codicePagina: string, fallback: string): Promise<void> {
   const renderIdCorrente = ++sfondoRenderId;
   const sfondiCodice = [
-    `assets/sfondi/${codicePagina}.jpg`,
-    `assets/sfondi/${codicePagina}.png`
+    creaPathAsset(`assets/sfondi/${codicePagina}.jpg`),
+    creaPathAsset(`assets/sfondi/${codicePagina}.png`)
   ];
 
   let sfondoCodice = cacheSfondoPerCodice.get(codicePagina);
@@ -144,22 +248,41 @@ async function impostaSfondoPagina(codicePagina: string, fallback: string): Prom
     return;
   }
 
-  const sfondoFinale = sfondoCodice || fallback;
+  const sfondoFinale = sfondoCodice || creaPathAsset(fallback);
   applicaTransizioneSfondo(sfondoFinale);
 }
 
 function aggiornaLinkAttivo(codicePagina: string): void {
+  const paginaAttiva = caricaPaginaDaCodice(codicePagina);
+  const parentAttivo = paginaAttiva?.parent ?? null;
+
   for (const link of navLinks) {
-    const linkPath = new URL(link.href, window.location.origin).pathname;
-    const linkCodice = leggiCodicePaginaDaUrl(normalizzaPathname(linkPath));
-    const isAttivo = linkCodice === codicePagina;
+    const href = link.getAttribute("href") || "";
+    const linkCodice = leggiCodicePaginaDaUrl(normalizzaPathname(new URL(href, window.location.origin).pathname));
+    const paginaLink = paginePerCodice.get(linkCodice);
+    const isAttivo = linkCodice === codicePagina || paginaLink?.id === parentAttivo;
+    const isCorrente = linkCodice === codicePagina;
 
     link.classList.toggle("is-active", isAttivo);
-    if (isAttivo) {
+    if (isCorrente) {
       link.setAttribute("aria-current", "page");
     } else {
       link.removeAttribute("aria-current");
     }
+  }
+
+  if (!(navContainer instanceof HTMLElement)) {
+    return;
+  }
+
+  const gruppi = Array.from(navContainer.querySelectorAll<HTMLElement>(".nav-item--has-children"));
+  for (const gruppo of gruppi) {
+    const codiceGruppo = gruppo.dataset.pageCode || "";
+    const paginaGruppo = paginePerCodice.get(codiceGruppo);
+    const isRamoAttivo = codiceGruppo === codicePagina || paginaGruppo?.id === parentAttivo;
+
+    gruppo.classList.toggle("is-active", isRamoAttivo);
+    impostaStatoSottomenu(gruppo, false);
   }
 }
 
@@ -214,8 +337,20 @@ function naviga(pathname: string, historyMode: HistoryMode = "push"): void {
   }
 }
 
-for (const link of navLinks) {
-  link.addEventListener("click", (event) => {
+preparaMenuConSottomenu();
+
+if (navContainer) {
+  navContainer.addEventListener("click", (event) => {
+    const target = event.target instanceof HTMLElement ? event.target : null;
+    if (!target) {
+      return;
+    }
+
+    const link = target.closest<HTMLAnchorElement>("a[href]");
+    if (!link || !navContainer.contains(link)) {
+      return;
+    }
+
     if (event.defaultPrevented || event.button !== 0) {
       return;
     }
@@ -236,6 +371,17 @@ for (const link of navLinks) {
 
     event.preventDefault();
     naviga(url.pathname, "push");
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Node) || navContainer.contains(target)) {
+      return;
+    }
+
+    for (const gruppo of Array.from(navContainer.querySelectorAll<HTMLElement>(".nav-item--has-children"))) {
+      impostaStatoSottomenu(gruppo, false);
+    }
   });
 }
 

@@ -6,6 +6,7 @@ export interface ElementoPagina {
 
 export interface Pagina {
   id: number;
+  parent: number | null;
   codice: string;
   titolo: string;
   testo: string;
