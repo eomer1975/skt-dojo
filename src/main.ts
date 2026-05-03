@@ -1,6 +1,7 @@
 import { pagine } from "./data/pagine.js";
 import { caricaPaginaDaCodice, leggiCodicePaginaDaUrl } from "./engine/pagina-engine.js";
 import { Pagina } from "./models/pagina.model.js";
+import { LitTemplateRenderer } from "./components/lit-template-renderer.js";
 
 type HistoryMode = "push" | "replace" | "none";
 type TransitionName = "transition-fade" | "transition-zoom" | "transition-swipe";
@@ -31,11 +32,21 @@ for (const pagina of pagine) {
   figliPerParent.set(pagina.parent, figli);
 }
 
-const heading = document.querySelector(".hero h1");
-const intro = document.querySelector(".hero p");
+const pageRenderer = document.querySelector<LitTemplateRenderer>("#page-renderer");
 const menuToggle = document.querySelector<HTMLInputElement>("#menu-toggle");
 const navContainer = document.querySelector<HTMLElement>(".nav-links");
 const bgLayers = Array.from(document.querySelectorAll<HTMLDivElement>(".bg-layer"));
+
+const templatePagina = `
+  <h1>{{titolo}}</h1>
+  <p>{{testo}}</p>
+  <div class="hero-cards">{{{elementiHtml}}}</div>
+`;
+
+const templateNotFound = `
+  <h1>{{titolo}}</h1>
+  <p>{{testo}}</p>
+`;
 
 function normalizzaSegmentiDuplicati(path: string): string {
   const segmenti = path.split("/").filter(Boolean);
@@ -321,18 +332,43 @@ function aggiornaLinkAttivo(codicePagina: string): void {
   }
 }
 
+function creaElementiHtml(elementi: Pagina["elementi"]): string {
+  if (elementi.length === 0) {
+    return "";
+  }
+
+  return elementi
+    .map((elemento) => {
+      return `
+        <article class="hero-card">
+          <img src="${creaPathAsset(elemento.immagine)}" alt="${elemento.titolo}">
+          <h2>${elemento.titolo}</h2>
+          <p>${elemento.testo}</p>
+        </article>
+      `;
+    })
+    .join("");
+}
+
 function renderPagina(pathname: string): { codice: string; trovata: boolean } {
   const codicePagina = leggiCodicePaginaDaUrl(normalizzaPathname(pathname));
   const pagina = caricaPaginaDaCodice(codicePagina);
 
-  if (heading instanceof HTMLElement) {
-    heading.textContent = pagina ? pagina.titolo : "Pagina non trovata";
-  }
-
-  if (intro instanceof HTMLElement) {
-    intro.textContent = pagina
-      ? pagina.testo
-      : "Il codice pagina non esiste. Controlla l'URL.";
+  if (pageRenderer instanceof LitTemplateRenderer) {
+    if (pagina) {
+      pageRenderer.templateHtml = templatePagina;
+      pageRenderer.data = {
+        titolo: pagina.titolo,
+        testo: pagina.testo,
+        elementiHtml: creaElementiHtml(pagina.elementi)
+      };
+    } else {
+      pageRenderer.templateHtml = templateNotFound;
+      pageRenderer.data = {
+        titolo: "Pagina non trovata",
+        testo: "Il codice pagina non esiste. Controlla l'URL."
+      };
+    }
   }
 
   if (pagina) {

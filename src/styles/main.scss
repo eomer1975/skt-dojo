@@ -244,6 +244,40 @@ body {
   font-size: clamp(1rem, 2.2vw, 1.2rem);
 }
 
+.hero-cards {
+  margin: 2rem auto 0;
+  width: min(980px, 100%);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.hero-card {
+  padding: 0.9rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(10, 10, 10, 0.42);
+  backdrop-filter: blur(4px);
+}
+
+.hero-card img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 0.7rem;
+}
+
+.hero-card h2 {
+  margin: 0.8rem 0 0;
+  font-size: 1.1rem;
+}
+
+.hero-card p {
+  margin-top: 0.5rem;
+  font-size: 0.96rem;
+  color: var(--ink-soft);
+}
+
 @media (max-width: 900px) {
   .topbar {
     border-radius: 1rem;
