@@ -1,7 +1,9 @@
 import { pagine } from "./data/pagine.js";
 import { caricaPaginaDaCodice, leggiCodicePaginaDaUrl } from "./engine/pagina-engine.js";
 import { Pagina } from "./models/pagina.model.js";
-import { LitTemplateRenderer } from "./components/lit-template-renderer.js";
+import { html, nothing, render, TemplateResult } from "lit";
+import { renderTemplateHome } from "./templates/home.js";
+import { renderTemplateNinjaKids } from "./templates/ninja-kids.js";
 
 type HistoryMode = "push" | "replace" | "none";
 type TransitionName = "transition-fade" | "transition-zoom" | "transition-swipe";
@@ -32,21 +34,10 @@ for (const pagina of pagine) {
   figliPerParent.set(pagina.parent, figli);
 }
 
-const pageRenderer = document.querySelector<LitTemplateRenderer>("#page-renderer");
+const pageRenderer = document.querySelector<HTMLElement>("#page-renderer");
 const menuToggle = document.querySelector<HTMLInputElement>("#menu-toggle");
 const navContainer = document.querySelector<HTMLElement>(".nav-links");
 const bgLayers = Array.from(document.querySelectorAll<HTMLDivElement>(".bg-layer"));
-
-const templatePagina = `
-  <h1>{{titolo}}</h1>
-  <p>{{testo}}</p>
-  <div class="hero-cards">{{{elementiHtml}}}</div>
-`;
-
-const templateNotFound = `
-  <h1>{{titolo}}</h1>
-  <p>{{testo}}</p>
-`;
 
 function normalizzaSegmentiDuplicati(path: string): string {
   const segmenti = path.split("/").filter(Boolean);
@@ -332,42 +323,95 @@ function aggiornaLinkAttivo(codicePagina: string): void {
   }
 }
 
-function creaElementiHtml(elementi: Pagina["elementi"]): string {
+function normalizzaParagrafi(testo: Pagina["testo"]): string[] {
+  const paragrafi = Array.isArray(testo) ? testo : [testo];
+
+  return paragrafi
+    .map((paragrafo) => paragrafo.trim())
+    .filter((paragrafo) => paragrafo.length > 0);
+}
+
+function renderElementiTemplate(elementi: Pagina["elementi"]): TemplateResult | typeof nothing {
   if (elementi.length === 0) {
-    return "";
+    return nothing;
   }
 
-  return elementi
-    .map((elemento) => {
-      return `
+  return html`
+    <div class="hero-cards">
+      ${elementi.map((elemento) => html`
         <article class="hero-card">
           <img src="${creaPathAsset(elemento.immagine)}" alt="${elemento.titolo}">
           <h2>${elemento.titolo}</h2>
-          <p>${elemento.testo}</p>
+          ${renderTestoElemento(elemento.testo)}
         </article>
-      `;
-    })
-    .join("");
+      `)}
+    </div>
+  `;
+}
+
+function renderTestoElemento(testo: string | string[]): TemplateResult {
+  if (Array.isArray(testo)) {
+    return html`${testo.map((paragrafo) => html`<p>${paragrafo}</p>`)}`;
+  }
+  return html`<p>${testo}</p>`;
+}
+
+function renderTestoTemplate(testo: Pagina["testo"]): TemplateResult {
+  const paragrafi = normalizzaParagrafi(testo);
+  if (paragrafi.length === 0) {
+    return html``;
+  }
+
+  return html`
+    <div class="text-cards">
+      ${paragrafi.map((paragrafo) => html`
+        <article class="text-card">
+          <p>${paragrafo}</p>
+        </article>
+      `)}
+    </div>
+  `;
+}
+
+function renderTemplateStandard(pagina: Pagina): TemplateResult {
+  return html`
+    <h1>${pagina.titolo}</h1>
+    ${renderTestoTemplate(pagina.testo)}
+    ${renderElementiTemplate(pagina.elementi)}
+  `;
+}
+
+function renderTemplatePagina(pagina: Pagina): TemplateResult {
+  if (pagina.template === "home") {
+    return renderTemplateHome(pagina, creaPathAsset);
+  }
+  if (pagina.template === "ninja-kids") {
+    return renderTemplateNinjaKids(pagina, creaPathAsset);
+  }
+
+  return renderTemplateStandard(pagina);
+}
+
+function renderTemplateNotFound(): TemplateResult {
+  return html`
+    <h1>Pagina non trovata</h1>
+    <div class="text-cards">
+      <article class="text-card">
+        <p>Il codice pagina non esiste. Controlla l'URL.</p>
+      </article>
+    </div>
+  `;
 }
 
 function renderPagina(pathname: string): { codice: string; trovata: boolean } {
   const codicePagina = leggiCodicePaginaDaUrl(normalizzaPathname(pathname));
   const pagina = caricaPaginaDaCodice(codicePagina);
 
-  if (pageRenderer instanceof LitTemplateRenderer) {
+  if (pageRenderer instanceof HTMLElement) {
     if (pagina) {
-      pageRenderer.templateHtml = templatePagina;
-      pageRenderer.data = {
-        titolo: pagina.titolo,
-        testo: pagina.testo,
-        elementiHtml: creaElementiHtml(pagina.elementi)
-      };
+      render(renderTemplatePagina(pagina), pageRenderer);
     } else {
-      pageRenderer.templateHtml = templateNotFound;
-      pageRenderer.data = {
-        titolo: "Pagina non trovata",
-        testo: "Il codice pagina non esiste. Controlla l'URL."
-      };
+      render(renderTemplateNotFound(), pageRenderer);
     }
   }
 

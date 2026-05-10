@@ -5,19 +5,20 @@ export const pagine: Pagina[] = [
     id: 1,
     parent: null,
     codice: "home",
-    titolo: "Benvenuto nel Dojo",
-    testo: "Scopri il nostro percorso di studio e crescita personale.",
+    template: "home",
+    titolo: "Shin ki tai dojo Roma",
+    testo: ["Un dojo Bujinkan a Roma. Migliorati studioando il Budo taijutsu, il sistema codificato da Masaaki Hatsumi che unisce nove ryuha giapponesi in un percorso di crescita personale e marziale.",
+      "Nella nostra accademia pratichiamo arti marziali tradizionali giapponesi, in particolare il Bujutsu e il Taijutsu, antiche discipline nate sul campo di battaglia e perfezionate nei secoli come via di crescita personale.",
+      "Le nostre lezioni combinano studio tecnico, allenamento fisico e ricerca interiore: ogni movimento è occasione per scoprire qualcosa di sé, migliorare la concentrazione e rafforzare il corpo in modo armonioso.",
+      "Nel nostro dojo si pratica in amicizia, con attenzione e spirito di collaborazione. Ogni lezione è un incontro tra persone che condividono la stessa ricerca: diventare più presenti, più forti e più gentili."
+    ],
+    immagine: "assets/home.png",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
       {
         titolo: "I nostri corsi",
-        immagine: "assets/legacy/corsi.jpg",
+        immagine: "assets/corsi-piccolo.png",
         testo: "Programmi adatti a principianti ed esperti."
-      },
-      {
-        titolo: "Il Dojo",
-        immagine: "assets/legacy/dojo.jpg",
-        testo: "Uno spazio dedicato alla pratica e al rispetto reciproco."
       }
     ]
   },
@@ -25,18 +26,25 @@ export const pagine: Pagina[] = [
     id: 2,
     parent: null,
     codice: "ninja-kids",
+    template: "ninja-kids",
     titolo: "Ninja Kids",
-    testo: "Percorso dedicato ai piu giovani con attenzione a disciplina, gioco e crescita.",
+    testo: [
+      "Percorso dedicato ai piu giovani con attenzione a disciplina, gioco e crescita. Nel corso Ninja Kids i bambini non imparano soltanto tecniche di movimento: imparano a crescere insieme.",
+      "Attraverso giochi di equilibrio, percorsi ninja, esercizi di coordinazione, cadute, tecniche di difesa e attività di gruppo, ogni allenamento diventa un’avventura capace di sviluppare corpo, mente e carattere.",
+      "Nel nostro dojo la cooperazione viene prima della competizione. I bambini imparano ad aiutarsi, a superare le difficoltà con coraggio e a trasformare l’energia in concentrazione e fiducia in sé stessi. Ogni lezione alterna momenti dinamici e divertenti ad altri più calmi, dedicati alla respirazione, all’attenzione e all’autocontrollo."
+    ],
+    immagine: "assets/ninja_kids2.png",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
       {
         titolo: "Programma bambini",
-        immagine: "assets/legacy/corsi.jpg",
-        testo: "Attivita progressive per coordinazione, rispetto e concentrazione."
+        immagine: "assets/ninja_kids1.png",
+        testo: ["Il percorso è pensato per bambini e ragazzi fino ai 14 anni e unisce spirito marziale, fantasia e amicizia in un ambiente sicuro e accogliente. I piccoli ninja si allenano insieme, affrontano sfide, ridono, collaborano e costruiscono legami autentici, guidati da istruttori esperti che seguono la crescita di ogni allievo con attenzione e passione.",
+          "Per noi diventare ninja significa imparare a essere forti, gentili e uniti."]
       },
       {
         titolo: "Obiettivi formativi",
-        immagine: "assets/legacy/dojo.jpg",
+        immagine: "assets/amicizia01.png",
         testo: "Sviluppo motorio, autocontrollo e collaborazione nel gruppo."
       }
     ]
@@ -45,8 +53,10 @@ export const pagine: Pagina[] = [
     id: 3,
     parent: null,
     codice: "adulti",
+    template: "standard",
     titolo: "Corsi adolescenti e adulti",
     testo: "Allenamento tecnico e tradizionale per principianti e praticanti avanzati.",
+    immagine: "assets/legacy/corsi.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
       {
@@ -65,8 +75,10 @@ export const pagine: Pagina[] = [
     id: 4,
     parent: null,
     codice: "dove-quando",
+    template: "standard",
     titolo: "Dove e Quando",
     testo: "Informazioni su sede del dojo, orari dei corsi e modalita di accesso.",
+    immagine: "assets/legacy/dojo.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
       {
@@ -85,8 +97,10 @@ export const pagine: Pagina[] = [
     id: 5,
     parent: null,
     codice: "bujinkan",
+    template: "standard",
     titolo: "La Bujinkan",
     testo: "Panoramica su storia, principi e spirito della tradizione Bujinkan.",
+    immagine: "assets/legacy/dojo.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
       {
@@ -105,8 +119,10 @@ export const pagine: Pagina[] = [
     id: 8,
     parent: 5,
     codice: "il-soke",
+    template: "standard",
     titolo: "Il Soke",
     testo: "Profilo di Masaaki Hatsumi, fondatore della Bujinkan e figura centrale del Budo Tai Jutsu.",
+    immagine: "assets/legacy/dojo.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
       {
@@ -125,8 +141,10 @@ export const pagine: Pagina[] = [
     id: 9,
     parent: 5,
     codice: "i-maestri",
+    template: "standard",
     titolo: "I Maestri",
     testo: "Le figure che hanno trasmesso il patrimonio tecnico e umano da Takamatsu Sensei a Hatsumi Sensei.",
+    immagine: "assets/legacy/dojo.jpg",
     immagineSfondo: "assets/sfondi/maestri.png",
     elementi: [
       {
@@ -145,8 +163,10 @@ export const pagine: Pagina[] = [
     id: 10,
     parent: 5,
     codice: "le-9-scuole",
+    template: "standard",
     titolo: "Le 9 Scuole",
     testo: "Panoramica delle nove tradizioni marziali che compongono il Budo Tai Jutsu trasmesso nella Bujinkan.",
+    immagine: "assets/legacy/corsi.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
       {
@@ -165,8 +185,10 @@ export const pagine: Pagina[] = [
     id: 6,
     parent: null,
     codice: "regole",
+    template: "standard",
     titolo: "Regole del Dojo",
     testo: "Linee guida di comportamento, sicurezza e partecipazione alla pratica.",
+    immagine: "assets/legacy/dojo.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
       {
@@ -185,8 +207,10 @@ export const pagine: Pagina[] = [
     id: 7,
     parent: null,
     codice: "contatti",
+    template: "standard",
     titolo: "Contatti",
     testo: "Riferimenti per informazioni, prove e iscrizioni ai corsi del dojo.",
+    immagine: "assets/legacy/corsi.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
       {
