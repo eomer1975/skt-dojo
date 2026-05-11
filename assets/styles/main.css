@@ -261,6 +261,126 @@
     grid-row: auto;
   }
 }
+.standard-layout {
+  width: 100%;
+  display: grid;
+  gap: 1.2rem;
+  text-align: left;
+}
+
+.standard-title {
+  margin: 0;
+  text-align: left;
+}
+
+.standard-top-row,
+.standard-main-row {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.standard-top-row {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.standard-main-row {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+
+.standard-main-row--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.standard-image-box,
+.standard-definizione-box,
+.standard-intro-box {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(8, 8, 8, 0.38);
+  padding: 1rem;
+}
+
+.standard-intro-box.text-card,
+.standard-definizione-box.text-card {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(10, 10, 10, 0.46);
+  padding: 1rem 1.1rem;
+}
+
+.standard-intro-box,
+.standard-definizione-box {
+  display: grid;
+  align-content: center;
+}
+
+.standard-image-box img {
+  width: 100%;
+  height: 100%;
+  max-height: 460px;
+  object-fit: cover;
+}
+
+.standard-layout p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.standard-definizione-box p + p {
+  margin-top: 0.9rem;
+}
+
+.standard-elements .hero-cards {
+  margin-top: 0;
+  grid-template-columns: 1fr;
+}
+
+.standard-elements .hero-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  text-align: left;
+}
+
+.standard-elements .hero-card-media {
+  grid-column: 1;
+  grid-row: auto;
+}
+
+.standard-elements .hero-card img {
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  object-fit: cover;
+}
+
+.standard-elements .hero-card-content {
+  grid-column: 1;
+  align-self: start;
+  text-align: left;
+}
+
+.standard-elements .hero-card-content h2 {
+  margin: 0;
+}
+
+.standard-elements .hero-card-content p {
+  margin-top: 0.45rem;
+}
+
+@media (max-width: 900px) {
+  .standard-main-row {
+    grid-template-columns: 1fr;
+  }
+  .standard-elements .hero-card {
+    grid-template-columns: 1fr;
+  }
+  .standard-elements .hero-card-media,
+  .standard-elements .hero-card-content {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
 :root {
   --ink: #f7f2e8;
   --ink-soft: #ddd3c4;
@@ -481,10 +601,11 @@ body {
 
 .hero {
   display: grid;
-  place-content: center;
+  align-items: center;
+  justify-items: stretch;
   min-height: calc(100vh - 90px);
   text-align: center;
-  padding: 2rem;
+  padding: 2rem 0;
   background: linear-gradient(180deg, rgba(10, 10, 10, 0.08), var(--overlay));
 }
 

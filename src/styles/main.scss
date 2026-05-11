@@ -1,5 +1,6 @@
 @use "./templates/home";
 @use "./templates/ninja-kids";
+@use "./templates/standard";
 
 :root {
   --ink: #f7f2e8;
@@ -227,10 +228,11 @@ body {
 
 .hero {
   display: grid;
-  place-content: center;
+  align-items: center;
+  justify-items: stretch;
   min-height: calc(100vh - 90px);
   text-align: center;
-  padding: 2rem;
+  padding: 2rem 0;
   background: linear-gradient(180deg, rgba(10, 10, 10, 0.08), var(--overlay));
 }
 

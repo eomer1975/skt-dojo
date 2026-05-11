@@ -1,9 +1,10 @@
-import { pagine } from "./data/pagine.js";
-import { caricaPaginaDaCodice, leggiCodicePaginaDaUrl } from "./engine/pagina-engine.js";
-import { Pagina } from "./models/pagina.model.js";
-import { html, nothing, render, TemplateResult } from "lit";
-import { renderTemplateHome } from "./templates/home.js";
-import { renderTemplateNinjaKids } from "./templates/ninja-kids.js";
+import { pagine } from "./data/pagine";
+import { caricaPaginaDaCodice, leggiCodicePaginaDaUrl } from "./engine/pagina-engine";
+import { Pagina } from "./models/pagina.model";
+import { html, render, TemplateResult } from "lit";
+import { renderTemplateHome } from "./templates/home";
+import { renderTemplateNinjaKids } from "./templates/ninja-kids";
+import { renderTemplateStandard } from "./templates/standard";
 
 type HistoryMode = "push" | "replace" | "none";
 type TransitionName = "transition-fade" | "transition-zoom" | "transition-swipe";
@@ -323,64 +324,6 @@ function aggiornaLinkAttivo(codicePagina: string): void {
   }
 }
 
-function normalizzaParagrafi(testo: Pagina["testo"]): string[] {
-  const paragrafi = Array.isArray(testo) ? testo : [testo];
-
-  return paragrafi
-    .map((paragrafo) => paragrafo.trim())
-    .filter((paragrafo) => paragrafo.length > 0);
-}
-
-function renderElementiTemplate(elementi: Pagina["elementi"]): TemplateResult | typeof nothing {
-  if (elementi.length === 0) {
-    return nothing;
-  }
-
-  return html`
-    <div class="hero-cards">
-      ${elementi.map((elemento) => html`
-        <article class="hero-card">
-          <img src="${creaPathAsset(elemento.immagine)}" alt="${elemento.titolo}">
-          <h2>${elemento.titolo}</h2>
-          ${renderTestoElemento(elemento.testo)}
-        </article>
-      `)}
-    </div>
-  `;
-}
-
-function renderTestoElemento(testo: string | string[]): TemplateResult {
-  if (Array.isArray(testo)) {
-    return html`${testo.map((paragrafo) => html`<p>${paragrafo}</p>`)}`;
-  }
-  return html`<p>${testo}</p>`;
-}
-
-function renderTestoTemplate(testo: Pagina["testo"]): TemplateResult {
-  const paragrafi = normalizzaParagrafi(testo);
-  if (paragrafi.length === 0) {
-    return html``;
-  }
-
-  return html`
-    <div class="text-cards">
-      ${paragrafi.map((paragrafo) => html`
-        <article class="text-card">
-          <p>${paragrafo}</p>
-        </article>
-      `)}
-    </div>
-  `;
-}
-
-function renderTemplateStandard(pagina: Pagina): TemplateResult {
-  return html`
-    <h1>${pagina.titolo}</h1>
-    ${renderTestoTemplate(pagina.testo)}
-    ${renderElementiTemplate(pagina.elementi)}
-  `;
-}
-
 function renderTemplatePagina(pagina: Pagina): TemplateResult {
   if (pagina.template === "home") {
     return renderTemplateHome(pagina, creaPathAsset);
@@ -388,8 +331,11 @@ function renderTemplatePagina(pagina: Pagina): TemplateResult {
   if (pagina.template === "ninja-kids") {
     return renderTemplateNinjaKids(pagina, creaPathAsset);
   }
+  if (pagina.template === "standard") {
+    return renderTemplateStandard(pagina, creaPathAsset);
+  }
 
-  return renderTemplateStandard(pagina);
+  return renderTemplateStandard(pagina, creaPathAsset);
 }
 
 function renderTemplateNotFound(): TemplateResult {

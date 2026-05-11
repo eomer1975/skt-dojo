@@ -57,7 +57,7 @@ var pagine = [
     codice: "adulti",
     template: "standard",
     titolo: "Corsi adolescenti e adulti",
-    testo: "Allenamento tecnico e tradizionale per principianti e praticanti avanzati.",
+    testo: ["I termini BuJutsu e Taijutsu indicano due metodi appartenenti alle Arti Marziali Tradizionali Giapponesi. Tali metodi contemplano l'utilizzo delle armi cos\xEC come le abilit\xE0 di combattimento a mani nude, insegnando i sistemi delle Koryu (stili tradizionali giapponesi).", "Il ninjutsu \xE8 la strategia e la tattica militare di guerra non convenzionale, guerriglia e spionaggio. La nostra scuola porta avanti la tradizione marziale delle seguenti scuole di Ninjutsu: Togakure Ryu, Gyokushin Ryu e Kumogakure Ryu.", "La difesa personale comprende tecniche pratiche utili alla difesa dalle aggressioni, preparazione psicologica e prevenzione. Sviluppiamo consapevolezza ambientale, de-escalation della violenza e gestione delle reazioni emotive."],
     immagine: "assets/legacy/corsi.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
@@ -74,12 +74,34 @@ var pagine = [
     ]
   },
   {
+    id: 11,
+    parent: null,
+    codice: "dojo-cho",
+    template: "standard",
+    titolo: "Il Dojo Cho",
+    testo: ["Il Dojo-Cho dello Shin Ki Tai Dojo, responsabile della scuola dal 2014, \xE8 Cristina De Angelis, attualmente II Dan Bujinkan, gi\xE0 Istruttrice di Judo e di Ju Jutsu.", "Cristina inizia la pratica delle arti marziali nel 1993, approdando al Judo e dedicandosi alla didattica. Nel 2011 si dedica al Ju Jutsu per ritrovare le radici della via della cedevolezza, e poco dopo si dedica anche al Budo Tai Jutsu.", "Nel 2023 riceve l'incarico di Referente Regionale per il Lazio nel Settore Ninjutsu CSEN."],
+    immagine: "assets/legacy/dojo.jpg",
+    immagineSfondo: "assets/sfondi/yamabushi01.png",
+    elementi: [
+      {
+        titolo: "Ruolo e responsabilit\xE0",
+        immagine: "assets/legacy/dojo.jpg",
+        testo: "Il dojo cho guida la comunit\xE0 con spirito di servizio e dedizione alla pratica."
+      },
+      {
+        titolo: "Trasmissione della pratica",
+        immagine: "assets/legacy/corsi.jpg",
+        testo: "Custode della tradizione e facilitatore della crescita individuale e collettiva."
+      }
+    ]
+  },
+  {
     id: 4,
     parent: null,
     codice: "dove-quando",
     template: "standard",
     titolo: "Dove e Quando",
-    testo: "Informazioni su sede del dojo, orari dei corsi e modalita di accesso.",
+    testo: ["La nostra accademia svolge i propri corsi in diverse location. In ognuna delle sedi \xE8 possibile, previa prenotazione, accedere a delle classi di prova o organizzare delle lezioni one to one esclusive.", "CINECITTA': Viale Tito Labieno 13 - Marted\xEC 20:00-21:30 e Sabato 10:30-12:30. GROTTE CELONI: Via di Grotte Celoni 21 - Luned\xEC e Gioved\xEC con lezioni Ninja Kids, Taiso e classi per tutti i livelli.", "Per prenotare una classe di prova o una lezione esclusiva, contattaci su WhatsApp: +39 3207520031 o invia una e-mail: artimarzialiroma@shinkitaidojo.com"],
     immagine: "assets/legacy/dojo.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
@@ -101,7 +123,7 @@ var pagine = [
     codice: "bujinkan",
     template: "standard",
     titolo: "La Bujinkan",
-    testo: "Panoramica su storia, principi e spirito della tradizione Bujinkan.",
+    testo: ["Il Budo Tai Jutsu \xE8 un'arte marziale nata dal connubio di nove antiche tradizioni marziali Samurai e Shinobi (Koryu). Precedentemente era conosciuta come Bujinkan Ninp\u014D Taijutsu e poi Ninjutsu.", "Le 9 Koryu che compongono il Budo Tai Jutsu sono: Togakure-ry\u016B Ninp\u014D Taijutsu, Gyokko-ry\u016B Kosshijutsu, Kuki Shinden Happ\u014D Hikenjutsu, Kot\u014D-ry\u016B Kopp\u014Djutsu, Shinden Fud\u014D-ry\u016B Dakentaijutsu, Takagi Y\u014Dshin-ry\u016B J\u016Btaijutsu, Gyokushin-ry\u016B Ninp\u014D, Kumogakure-ry\u016B Ninp\u014D e Gikan-ry\u016B Kopp\u014Djutsu.", "Bujinkan (\u6B66\u795E\u9928), 'casa del guerriero divino', \xE8 un'organizzazione fondata nel 1974 da Hatsumi Sensei per onorare il suo insegnante Soke Takamatsu Toshitsugu. Lo Honbu D\u014Dj\u014D della Bujinkan si trova a Noda, nei pressi di Tokyo."],
     immagine: "assets/legacy/dojo.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
@@ -123,7 +145,7 @@ var pagine = [
     codice: "il-soke",
     template: "standard",
     titolo: "Il Soke",
-    testo: "Profilo di Masaaki Hatsumi, fondatore della Bujinkan e figura centrale del Budo Tai Jutsu.",
+    testo: ["Masaaki Hatsumi (2 Dicembre 1931) \xE8 il fondatore della Bujinkan e attualmente risiede a Noda, Chiba, in Giappone. Inizia lo studio delle arti marziali a 7 anni praticando Kendo e successivamente Judo, ricevendo nel 1951 il quarto dan.", "Laureatosi in Medicina, Hatsumi decise di dedicarsi alla ricerca di un Maestro completo. All'et\xE0 di 26 anni incontr\xF2 Takamatsu Toshitsugu, conosciuto come 'Moko no tora' la tigre mongola, riconosciuto come l'ultimo ninja.", "Il 2 Aprile 1972, Takamatsu Sensei, all'et\xE0 di 85 anni, muore trasmettendo la carica di Soke ad Hatsumi Masaaki, suo fedele allievo da 15 anni. Questo evento segna l'inizio di una nuova era per il Ninjutsu, che per mano di Hatsumi diviene organizzazione internazionale."],
     immagine: "assets/legacy/dojo.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
@@ -145,7 +167,7 @@ var pagine = [
     codice: "i-maestri",
     template: "standard",
     titolo: "I Maestri",
-    testo: "Le figure che hanno trasmesso il patrimonio tecnico e umano da Takamatsu Sensei a Hatsumi Sensei.",
+    testo: ["Takamatsu Toshitsugu, conosciuto come 'Moko no tora', la tigre mongola, \xE8 oggi riconosciuto come l'ultimo ninja. Alla sua anzianit\xE0 conservava uno spirito indomito e le sue lezioni impressionavano moltissimo i suoi studenti.", "Takamatsu trasmise la carica di Soke ad Hatsumi Masaaki il 2 Aprile 1972, all'et\xE0 di 85 anni, dopo essere stato maestro fedele per 15 anni. Questo evento segna l'inizio di una nuova era per il Ninjutsu e il Budo Tai Jutsu.", "La relazione maestro-allievo rimane il fondamento dello studio tradizionale nel dojo. La trasmissione diretta del lignaggio garantisce l'autenticit\xE0 delle tecniche e lo spirito della pratica."],
     immagine: "assets/legacy/dojo.jpg",
     immagineSfondo: "assets/sfondi/maestri.png",
     elementi: [
@@ -167,7 +189,7 @@ var pagine = [
     codice: "le-9-scuole",
     template: "standard",
     titolo: "Le 9 Scuole",
-    testo: "Panoramica delle nove tradizioni marziali che compongono il Budo Tai Jutsu trasmesso nella Bujinkan.",
+    testo: ["Le 9 Koryu (scuole tradizionali) che compongono il Budo Tai Jutsu sono: Togakure-ry\u016B Ninp\u014D Taijutsu, Gyokko-ry\u016B Kosshijutsu, Kuki Shinden Happ\u014D Hikenjutsu, Kot\u014D-ry\u016B Kopp\u014Djutsu, Shinden Fud\u014D-ry\u016B Dakentaijutsu, Takagi Y\u014Dshin-ry\u016B J\u016Btaijutsu, Gyokushin-ry\u016B Ninp\u014D, Kumogakure-ry\u016B Ninp\u014D e Gikan-ry\u016B Kopp\u014Djutsu.", "Dalle scuole shinobi alle tradizioni samurai, nove lignaggi confluiscono nello studio moderno, rappresentando sia l'arte della guerriglia che le tecniche dei samurai tradizionali.", "Principi, distanza, postura e strategia emergono dall'incontro e dallo studio integrato tra le diverse scuole, creando il Budo Tai Jutsu come pratica completa."],
     immagine: "assets/legacy/corsi.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
@@ -189,7 +211,7 @@ var pagine = [
     codice: "regole",
     template: "standard",
     titolo: "Regole del Dojo",
-    testo: "Linee guida di comportamento, sicurezza e partecipazione alla pratica.",
+    testo: ["Il nostro proposito \xE8 vivere una vita sana senza far danno alla societ\xE0, mediante il culto della mutua relazione fra la naturalezza e l'umanit\xE0 attraverso il cammino marziale.", "Tutti i membri devono possedere la tessera internazionale della federazione per ogni anno, rilasciata dall'Honbu Dojo in Giappone. I diplomi per grado vengono spediti dal Soke Masaaki Hatsumi, e gli istruttori che insegnano devono possedere l'autorizzazione scritta dal Soke.", "I membri devono seguire il Bufu Ikkan (il cammino marziale come principio di vita) per proteggere la giustizia e la felicit\xE0 attraverso il cammino marziale senza orientarsi verso il profitto o i desideri personali."],
     immagine: "assets/legacy/dojo.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
@@ -211,7 +233,7 @@ var pagine = [
     codice: "contatti",
     template: "standard",
     titolo: "Contatti",
-    testo: "Riferimenti per informazioni, prove e iscrizioni ai corsi del dojo.",
+    testo: "Vuoi prenotare una lezione di prova? Contattaci! INFOLINE: email: shinkitaidojo@gmail.com \u2013 Tel.: +39 3207520031",
     immagine: "assets/legacy/corsi.jpg",
     immagineSfondo: "assets/sfondi/yamabushi01.png",
     elementi: [
@@ -903,6 +925,66 @@ function renderTemplateNinjaKids(pagina, creaPathAsset2) {
   `;
 }
 
+// src/templates/standard.ts
+function normalizzaParagrafi3(testo) {
+  const paragrafi = Array.isArray(testo) ? testo : [testo];
+  return paragrafi.map((paragrafo) => paragrafo.trim()).filter((paragrafo) => paragrafo.length > 0);
+}
+function renderElementiTemplate3(elementi, creaPathAsset2) {
+  if (elementi.length === 0) {
+    return A;
+  }
+  return b2`
+    <div class="standard-elements">
+      <div class="hero-cards">
+        ${elementi.map((elemento) => b2`
+          <article class="hero-card">
+            <div class="hero-card-media">
+              <img src="${creaPathAsset2(elemento.immagine)}" alt="${elemento.titolo}">
+            </div>
+            <div class="hero-card-content">
+              <h2>${elemento.titolo}</h2>
+              ${renderTestoElemento3(elemento.testo)}
+            </div>
+          </article>
+        `)}
+      </div>
+    </div>
+  `;
+}
+function renderTestoElemento3(testo) {
+  if (Array.isArray(testo)) {
+    return b2`${testo.map((paragrafo) => b2`<p>${paragrafo}</p>`)}`;
+  }
+  return b2`<p>${testo}</p>`;
+}
+function renderTemplateStandard(pagina, creaPathAsset2) {
+  const paragrafi = normalizzaParagrafi3(pagina.testo);
+  const testoIntro = paragrafi[0] || "";
+  const testoDefinizione = paragrafi.slice(1);
+  return b2`
+    <section class="standard-layout">
+      <h1 class="standard-title">${pagina.titolo}</h1>
+      <div class="standard-top-row">
+        <div class="standard-intro-box text-card">
+          ${testoIntro ? b2`<p>${testoIntro}</p>` : A}
+        </div>
+      </div>
+      <div class="standard-main-row ${testoDefinizione.length === 0 ? "standard-main-row--single" : ""}">
+        <div class="standard-image-box image-card">
+          <img src="${creaPathAsset2(pagina.immagine)}" alt="${pagina.titolo}">
+        </div>
+        ${testoDefinizione.length > 0 ? b2`
+          <div class="standard-definizione-box text-card">
+            ${testoDefinizione.map((paragrafo) => b2`<p>${paragrafo}</p>`)}
+          </div>
+        ` : A}
+      </div>
+      ${renderElementiTemplate3(pagina.elementi, creaPathAsset2)}
+    </section>
+  `;
+}
+
 // src/main.ts
 var sfondiDisponibili = [
   "assets/sfondi/samurai01.png",
@@ -1152,54 +1234,6 @@ function aggiornaLinkAttivo(codicePagina) {
     impostaStatoSottomenu(gruppo, false);
   }
 }
-function normalizzaParagrafi3(testo) {
-  const paragrafi = Array.isArray(testo) ? testo : [testo];
-  return paragrafi.map((paragrafo) => paragrafo.trim()).filter((paragrafo) => paragrafo.length > 0);
-}
-function renderElementiTemplate3(elementi) {
-  if (elementi.length === 0) {
-    return A;
-  }
-  return b2`
-    <div class="hero-cards">
-      ${elementi.map((elemento) => b2`
-        <article class="hero-card">
-          <img src="${creaPathAsset(elemento.immagine)}" alt="${elemento.titolo}">
-          <h2>${elemento.titolo}</h2>
-          ${renderTestoElemento3(elemento.testo)}
-        </article>
-      `)}
-    </div>
-  `;
-}
-function renderTestoElemento3(testo) {
-  if (Array.isArray(testo)) {
-    return b2`${testo.map((paragrafo) => b2`<p>${paragrafo}</p>`)}`;
-  }
-  return b2`<p>${testo}</p>`;
-}
-function renderTestoTemplate(testo) {
-  const paragrafi = normalizzaParagrafi3(testo);
-  if (paragrafi.length === 0) {
-    return b2``;
-  }
-  return b2`
-    <div class="text-cards">
-      ${paragrafi.map((paragrafo) => b2`
-        <article class="text-card">
-          <p>${paragrafo}</p>
-        </article>
-      `)}
-    </div>
-  `;
-}
-function renderTemplateStandard(pagina) {
-  return b2`
-    <h1>${pagina.titolo}</h1>
-    ${renderTestoTemplate(pagina.testo)}
-    ${renderElementiTemplate3(pagina.elementi)}
-  `;
-}
 function renderTemplatePagina(pagina) {
   if (pagina.template === "home") {
     return renderTemplateHome(pagina, creaPathAsset);
@@ -1207,7 +1241,10 @@ function renderTemplatePagina(pagina) {
   if (pagina.template === "ninja-kids") {
     return renderTemplateNinjaKids(pagina, creaPathAsset);
   }
-  return renderTemplateStandard(pagina);
+  if (pagina.template === "standard") {
+    return renderTemplateStandard(pagina, creaPathAsset);
+  }
+  return renderTemplateStandard(pagina, creaPathAsset);
 }
 function renderTemplateNotFound() {
   return b2`
